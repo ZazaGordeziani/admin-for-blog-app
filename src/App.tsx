@@ -9,6 +9,7 @@ import Dashboard from "./layouts/dashboard-layout";
 import UsersListView from "./pages/admin-pages/users/views/list/index";
 import UsersUpdateView from "./pages/admin-pages/users/views/update";
 import UsersCreateView from "./pages/admin-pages/users/views/create";
+import BlogsCreateUpdateForm from "./pages/admin-pages/blogs/components/create-update";
 const queryClient = new QueryClient(); // Create a QueryClient instance
 
 function App() {
@@ -28,6 +29,11 @@ function App() {
               <Route index element={<Dashboard />} />
               <Route path="create" element={<UsersCreateView />} />
               <Route path="update/:id" element={<UsersUpdateView />} />
+              <Route
+                path="blogsUpdate/:id"
+                element={<BlogsCreateUpdateForm />}
+              />
+              <Route path="blogsCreate" element={<BlogsCreateUpdateForm />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="users" element={<UsersListView />} />
             </Route>
