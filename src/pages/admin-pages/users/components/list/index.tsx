@@ -43,6 +43,7 @@ const UsersList: React.FC<{
             <EditOutlined
               className=" flex justify-center text-xl text-amber-400 cursor-pointer"
               onClick={() => {
+                // console.log("id -  ", row?.id);
                 handleNavigateToUserEdit(row?.id);
               }}
             />

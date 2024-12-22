@@ -1,8 +1,10 @@
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
-
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { updateBlogInAdmin } from "../../../blogs/index";
 const { Item } = Form;
-export const BlogsCreateUpdateForm: React.FC<{
+const BlogsCreateUpdateForm: React.FC<{
   initialValues: {
     title_ka: string;
     title_en: string;
@@ -12,6 +14,9 @@ export const BlogsCreateUpdateForm: React.FC<{
     created_at: string;
   };
 }> = ({ initialValues }) => {
+  const { id } = useParams();
+
+  const navigate = useNavigate();
   const [form] = useForm();
 
   const handleSubmit = (values: {
@@ -22,7 +27,8 @@ export const BlogsCreateUpdateForm: React.FC<{
     image_url: string;
     created_at: string;
   }) => {
-    console.log(values);
+    updateBlogInAdmin(id as string, values);
+    navigate(`/admin`);
   };
   return (
     <Form<{

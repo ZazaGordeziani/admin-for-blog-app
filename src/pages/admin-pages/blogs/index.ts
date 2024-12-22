@@ -30,7 +30,7 @@ export const updateBlogInAdmin = (
         console.error("Error updating blog:", res.error);
         return null;
       }
-      console.log("Blog updated:", res.data);
+      // console.log("Blog updated:", res.data);
       return res.data;
     });
 };
@@ -46,7 +46,7 @@ export const getSingleBlogInAdmin = (id: number | string) => {
         console.error("Error fetching blog:", res.error);
         return null;
       }
-      console.log("Fetched blog data:", res.data);
+      // console.log("Fetched blog data:", res.data);
       return res.data;
     });
 };

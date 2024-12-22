@@ -37,10 +37,14 @@ const Dashboard = () => {
     navigate(`/admin/blogsUpdate/${id}`);
   };
 
+  const handleAddBlog = () => {
+    navigate("/admin/blogsCreate");
+  };
+
   return (
     <Table
       title={() => (
-        <Button type="primary" icon={<PlusOutlined />}>
+        <Button type="primary" icon={<PlusOutlined />} onClick={handleAddBlog}>
           Add Blog
         </Button>
       )}
@@ -60,6 +64,8 @@ const Dashboard = () => {
             <EditOutlined
               className=" flex justify-center text-xl text-amber-400 cursor-pointer"
               onClick={() => {
+                // console.log(row?.id);
+                // console.log(row);
                 handleNavigateBlogUpdate(row?.id);
               }}
             />

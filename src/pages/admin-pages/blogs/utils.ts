@@ -4,13 +4,14 @@ import { blog } from "../blogs/index";
 export const mappedBlogsListForAdmin = (blogs: blog[]) => {
   return blogs?.map((blog) => {
     return {
-      key: blog.id,
+      id: blog?.id,
       title_ka: blog?.title_ka,
       title_en: blog?.title_en,
       description_ka: blog?.description_ka,
       description_en: blog?.description_en,
       image_url: blog?.image_url,
       created_at: dayjs(blog?.created_at).format("YYYY-MM-DD HH:mm"),
+      key: blog.id,
     };
   });
 };
