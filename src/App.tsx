@@ -9,7 +9,7 @@ import Dashboard from "./layouts/dashboard-layout";
 import UsersListView from "./pages/admin-pages/users/views/list/index";
 import UsersUpdateView from "./pages/admin-pages/users/views/update";
 import UsersCreateView from "./pages/admin-pages/users/views/create";
-import BlogsCreateUpdateForm from "./pages/admin-pages/blogs/components/create-update";
+import { BlogsCreateUpdateForm } from "./pages/admin-pages/blogs/components/create-update";
 const queryClient = new QueryClient(); // Create a QueryClient instance
 
 function App() {

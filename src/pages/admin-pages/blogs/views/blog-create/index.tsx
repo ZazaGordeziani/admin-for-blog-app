@@ -1,7 +1,7 @@
-import BlogsCreateUpdateForm from "../../components/create-update";
+// import BlogsCreateUpdateForm from "../../components/create-update";
 
 const BlogsCreateView = () => {
-  return <BlogsCreateUpdateForm />;
+  // return <BlogsCreateUpdateForm  />;
 };
 
 export default BlogsCreateView;

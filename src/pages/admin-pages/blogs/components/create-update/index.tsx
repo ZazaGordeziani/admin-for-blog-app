@@ -2,14 +2,38 @@ import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
 
 const { Item } = Form;
-const BlogsCreateUpdateForm = () => {
+export const BlogsCreateUpdateForm: React.FC<{
+  initialValues: {
+    title_ka: string;
+    title_en: string;
+    description_ka: string;
+    description_en: string;
+    image_url: string;
+    created_at: string;
+  };
+}> = ({ initialValues }) => {
   const [form] = useForm();
 
-  const handleSubmit = (values: []) => {
+  const handleSubmit = (values: {
+    title_ka: string;
+    title_en: string;
+    description_ka: string;
+    description_en: string;
+    image_url: string;
+    created_at: string;
+  }) => {
     console.log(values);
   };
   return (
-    <Form
+    <Form<{
+      title_ka: string;
+      title_en: string;
+      description_ka: string;
+      description_en: string;
+      image_url: string;
+      created_at: string;
+    }>
+      initialValues={initialValues}
       form={form}
       onFinish={handleSubmit}
       name="wrap"

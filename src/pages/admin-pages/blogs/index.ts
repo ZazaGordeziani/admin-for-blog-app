@@ -5,7 +5,7 @@ export const getBlogsListInAdmin = () => {
     .from("Blogs")
     .select("*")
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       return res.data as blog[];
     });
 };
@@ -31,6 +31,22 @@ export const updateBlogInAdmin = (
         return null;
       }
       console.log("Blog updated:", res.data);
+      return res.data;
+    });
+};
+
+export const getSingleBlogInAdmin = (id: number | string) => {
+  return supabase
+    .from("Blogs")
+    .select("*")
+    .eq("id", id)
+    .single()
+    .then((res) => {
+      if (res.error) {
+        console.error("Error fetching blog:", res.error);
+        return null;
+      }
+      console.log("Fetched blog data:", res.data);
       return res.data;
     });
 };
