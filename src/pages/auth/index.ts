@@ -1,4 +1,5 @@
 import { supabase } from "../../supabase/index";
+import { atom } from "jotai";
 
 export const login = ({
   email,
@@ -22,3 +23,6 @@ export const login = ({
 export const logout = () => {
   return supabase.auth.signOut();
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const userAtom = atom<any>(null);

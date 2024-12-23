@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { CardDescription } from "../../src/components/components/ui/card";
 import FormItem from "antd/es/form/FormItem";
 import { Label } from "@radix-ui/react-label";
-
+import { useAtom } from "jotai";
+import { userAtom } from "../auth/index";
 const SignIn = () => {
   const { control, handleSubmit, formState } = useForm<SignInValues>({
     defaultValues: { email: "", password: "" },
   });
-
+  const [, setUser] = useAtom(userAtom);
   const navigate = useNavigate();
 
   type SignInValues = {
@@ -22,9 +23,18 @@ const SignIn = () => {
   const { mutate: handleLogin } = useMutation({
     mutationKey: ["login"],
     mutationFn: login,
-    onSuccess: () => {
-      // handleSetUser(res.data.user);
-      navigate("/admin");
+    onSuccess: (response) => {
+      const { data } = response;
+
+      if (data?.user) {
+        setUser(data.user);
+        navigate("/admin");
+      } else {
+        console.error("Login failed: No user data available");
+      }
+    },
+    onError: (error) => {
+      console.error("Login failed:", error);
     },
   });
 
@@ -112,7 +122,7 @@ const SignIn = () => {
             )}
           </div>
           <button
-            className="mt-4 inline-flex h-9 w-full items-center justify-center gap-2 whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+            className="bg-blue-600	text-white mt-4 inline-flex h-9 w-full items-center justify-center gap-2 whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
             onClick={handleSubmit(onSignInSubmit)}
           >
             Submit
