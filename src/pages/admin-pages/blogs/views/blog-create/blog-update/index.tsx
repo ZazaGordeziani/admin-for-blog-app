@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
-import BlogsCreateUpdateForm from "../../components/create-update/create-update";
+import BlogsCreateUpdateForm from "../../../components/create-update/create-update";
 import { useEffect, useState } from "react";
-import { getSingleBlogInAdmin } from "../..";
+import { getSingleBlogInAdmin } from "../../..";
+import { updateBlogInAdmin } from "../../../index";
 
 const BlogsUpdateView = () => {
   const { id } = useParams();
@@ -48,7 +49,24 @@ const BlogsUpdateView = () => {
     fetchBlogData();
   }, [id]);
 
-  return isLoading ? null : <BlogsCreateUpdateForm initialValues={blog} />;
+  const handleUpdateBlog = (values: {
+    title_ka: string;
+    title_en: string;
+    description_ka: string;
+    description_en: string;
+    image_url: string;
+    created_at: string;
+  }) => {
+    // Call the update function and pass the values to update the blog
+    updateBlogInAdmin(id as string, values);
+
+    // Optionally, redirect to another page after submission
+    // navigate("/admin"); // Uncomment to navigate to a different page after submission
+  };
+
+  return isLoading ? null : (
+    <BlogsCreateUpdateForm initialValues={blog} onSubmit={handleUpdateBlog} />
+  );
 };
 
 export default BlogsUpdateView;

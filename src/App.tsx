@@ -9,8 +9,9 @@ import Dashboard from "./layouts/dashboard-layout";
 import UsersListView from "./pages/admin-pages/users/views/list/index";
 import UsersUpdateView from "./pages/admin-pages/users/views/update";
 import UsersCreateView from "./pages/admin-pages/users/views/create";
-import BlogsUpdateView from "./pages/admin-pages/blogs/views/blog-update";
+import BlogsUpdateView from "./pages/admin-pages/blogs/views/blog-create/blog-update";
 import BlogsCreateView from "./pages/admin-pages/blogs/views/blog-create";
+import { AuthGuard } from "./pages/admin-pages/blogs/components/create-update/create-update";
 const queryClient = new QueryClient(); // Create a QueryClient instance
 
 function App() {
@@ -28,12 +29,55 @@ function App() {
             <Route path="/" element={<SignIn />} />
             <Route path="admin" element={<AdminLayout />}>
               <Route index element={<Dashboard />} />
-              <Route path="create" element={<UsersCreateView />} />
-              <Route path="update/:id" element={<UsersUpdateView />} />
-              <Route path="blogsUpdate/:id" element={<BlogsUpdateView />} />
-              <Route path="blogsCreate" element={<BlogsCreateView />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="users" element={<UsersListView />} />
+              <Route
+                path="create"
+                element={
+                  <AuthGuard>
+                    <UsersCreateView />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="update/:id"
+                element={
+                  <AuthGuard>
+                    <UsersUpdateView />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="blogsUpdate/:id"
+                element={
+                  <AuthGuard>
+                    <BlogsUpdateView />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="blogsCreate"
+                element={
+                  <AuthGuard>
+                    <BlogsCreateView />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="dashboard"
+                element={
+                  <AuthGuard>
+                    {" "}
+                    <Dashboard />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="users"
+                element={
+                  <AuthGuard>
+                    <UsersListView />
+                  </AuthGuard>
+                }
+              />
             </Route>
           </Routes>
         </BrowserRouter>{" "}

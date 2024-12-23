@@ -1,3 +1,4 @@
+// import { PropsWithChildren } from "react";
 import { supabase } from "../../../supabase";
 
 export const getBlogsListInAdmin = () => {

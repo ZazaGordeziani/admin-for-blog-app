@@ -1,10 +1,23 @@
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { PropsWithChildren } from "react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { updateBlogInAdmin } from "../../../blogs/index";
+import { atom, useAtom } from "jotai";
 const { Item } = Form;
-const BlogsCreateUpdateForm: React.FC<{
+// eslint-disable-next-line react-refresh/only-export-components
+export const userAtom = atom<string>();
+export const AuthGuard: React.FC<PropsWithChildren> = () => {
+  const [user] = useAtom(userAtom);
+
+  if (user) {
+    console.log(user);
+
+    return <Navigate to="/admin" />;
+  }
+  return <Navigate to="/" />;
+};
+interface BlogCreateUpdateFormProps {
   initialValues: {
     title_ka: string;
     title_en: string;
@@ -13,7 +26,20 @@ const BlogsCreateUpdateForm: React.FC<{
     image_url: string;
     created_at: string;
   };
-}> = ({ initialValues }) => {
+  onSubmit: (values: {
+    title_ka: string;
+    title_en: string;
+    description_ka: string;
+    description_en: string;
+    image_url: string;
+    created_at: string;
+  }) => void;
+}
+
+const BlogsCreateUpdateForm: React.FC<BlogCreateUpdateFormProps> = ({
+  initialValues,
+  onSubmit,
+}) => {
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -28,8 +54,11 @@ const BlogsCreateUpdateForm: React.FC<{
     created_at: string;
   }) => {
     updateBlogInAdmin(id as string, values);
+    onSubmit(values);
+
     navigate(`/admin`);
   };
+
   return (
     <Form<{
       title_ka: string;
