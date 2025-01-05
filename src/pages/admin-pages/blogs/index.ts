@@ -1,5 +1,6 @@
 // import { PropsWithChildren } from "react";
 import { supabase } from "../../../supabase";
+import { Blog } from "./views/blog-create/blog-update";
 
 export const getBlogsListInAdmin = () => {
   return supabase
@@ -36,7 +37,9 @@ export const updateBlogInAdmin = (
     });
 };
 
-export const getSingleBlogInAdmin = (id: number | string) => {
+export const getSingleBlogInAdmin = (
+  id: number | string
+): Promise<Blog | null> => {
   return supabase
     .from("Blogs")
     .select("*")
@@ -48,7 +51,14 @@ export const getSingleBlogInAdmin = (id: number | string) => {
         return null;
       }
       // console.log("Fetched blog data:", res.data);
-      return res.data;
+      return {
+        title_ka: res.data?.title_ka || "",
+        title_en: res.data?.title_en || "",
+        description_ka: res.data?.description_ka || "",
+        description_en: res.data?.description_en || "",
+        image_url: res.data?.image_url || "",
+        created_at: res.data?.created_at || "",
+      };
     });
 };
 

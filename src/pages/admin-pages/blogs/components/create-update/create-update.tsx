@@ -17,7 +17,7 @@ export const AuthGuard: React.FC<PropsWithChildren> = ({ children }) => {
   }
   return <Navigate to="/" />;
 };
-interface BlogCreateUpdateFormProps {
+export interface BlogCreateUpdateFormProps {
   initialValues: {
     title_ka: string;
     title_en: string;

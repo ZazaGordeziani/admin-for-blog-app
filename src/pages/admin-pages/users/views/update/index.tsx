@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import UserCreateUpdateForm from "../../components/form/create-update";
 import {
   getSingleUserInAdmin,
@@ -6,29 +5,41 @@ import {
 } from "../../../../users/api/admin/index";
 import { useNavigate, useParams } from "react-router-dom";
 import UsersCreateUpdateFormSkeleton from "./skeleton";
+import { useQuery } from "@tanstack/react-query";
 const UsersUpdateView = () => {
   const { id } = useParams();
-
-  const [user, setUser] = useState<{ email: string; phone: string }>({
-    email: "",
-    phone: "",
-  });
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(true);
+  // const [user, setUser] = useState<{ email: string; phone: string }>({
+  //   email: "",
+  //   phone: "",
+  // });
 
-  useEffect(() => {
-    getSingleUserInAdmin(id as string)
-      .then((res) => {
-        console.log(res);
-        setUser({ email: res?.email || "", phone: res?.phone || "" });
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 2000);
-      });
-  }, [id]);
+  // const [isLoading, setIsLoading] = useState(true);
+
+  // useEffect(() => {
+  //   getSingleUserInAdmin(id as string)
+  //     .then((res) => {
+  //       console.log(res);
+  //       setUser({ email: res?.email || "", phone: res?.phone || "" });
+  //     })
+  //     .finally(() => {
+  //       setTimeout(() => {
+  //         setIsLoading(false);
+  //       }, 2000);
+  //     });
+  // }, [id]);
+
+  const getSingleUser = async () => {
+    const res = await getSingleUserInAdmin(id as string);
+    return res;
+  };
+
+  const { data: userData, isLoading } = useQuery({
+    queryKey: ["user", id],
+    queryFn: getSingleUser,
+    enabled: !!id,
+  });
 
   const handleSubmit = (values: { email: string; phone: string }) => {
     updateUserInAdmin(id as string, values)
@@ -42,7 +53,13 @@ const UsersUpdateView = () => {
   return isLoading ? (
     <UsersCreateUpdateFormSkeleton />
   ) : (
-    <UserCreateUpdateForm initialValues={user} onSubmit={handleSubmit} />
+    <UserCreateUpdateForm
+      initialValues={{
+        email: userData?.email || "",
+        phone: userData?.phone || "",
+      }}
+      onSubmit={handleSubmit}
+    />
   );
 };
 

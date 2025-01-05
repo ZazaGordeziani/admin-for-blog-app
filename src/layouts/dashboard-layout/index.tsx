@@ -4,34 +4,43 @@
 // import { fetchBlogs } from "../../supabase/blogs/utils";
 // import { supabase } from "../../supabase";
 
-import { useEffect, useState } from "react";
 import { getBlogsListInAdmin } from "../../pages/admin-pages/blogs";
 import { Button, Table } from "antd";
 import Column from "antd/es/table/Column";
 import { mappedBlogsListForAdmin } from "../../pages/admin-pages/blogs/utils";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   // fetchBlogs();
-  const [blogs, setBlogs] = useState<
-    {
-      created_at: string;
-      title_ka: string;
-      title_en: string;
-      description_ka: string;
-      image_url: string;
-      description_en: string;
-    }[]
-  >([]);
+  // const [blogs, setBlogs] = useState<
+  //   {
+  //     created_at: string;
+  //     title_ka: string;
+  //     title_en: string;
+  //     description_ka: string;
+  //     image_url: string;
+  //     description_en: string;
+  //   }[]
+  // >([]);
 
-  useEffect(() => {
-    getBlogsListInAdmin().then((blogs) => {
-      const mappedBlogs = mappedBlogsListForAdmin(blogs);
-      setBlogs(mappedBlogs);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getBlogsListInAdmin().then((blogs) => {
+  //     const mappedBlogs = mappedBlogsListForAdmin(blogs);
+  //     setBlogs(mappedBlogs);
+  //   });
+  // }, []);
+
+  const getBlogsList = async () => {
+    const blogs = await getBlogsListInAdmin();
+    return mappedBlogsListForAdmin(blogs);
+  };
+  const { data: blogs } = useQuery({
+    queryKey: ["blogs"],
+    queryFn: getBlogsList,
+  });
 
   const handleNavigateBlogUpdate = (id: string | number) => {
     navigate(`/admin/blogsUpdate/${id}`);

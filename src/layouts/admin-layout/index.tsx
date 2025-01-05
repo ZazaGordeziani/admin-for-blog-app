@@ -5,13 +5,13 @@ const { Header, Content, Sider } = Layout;
 
 const items2: MenuProps["items"] = [
   {
-    key: `users`,
+    key: "users",
     // icon: React.createElement(icon),
-    label: `Users`,
+    label: "Users",
 
     children: [
       {
-        key: 0,
+        key: "0",
         label: <Link to="/admin/users">Users</Link>,
       },
     ],
