@@ -32,8 +32,6 @@ const UsersListView = () => {
     queryFn: getUsers,
   });
 
-  // Show skeleton loader or error message if data is loading or failed
-
   return <UsersList users={users || []} />;
 };
 
