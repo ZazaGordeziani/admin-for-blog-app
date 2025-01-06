@@ -1,6 +1,5 @@
 // import { useEffect } from "react";
-import { login } from ".";
-import { useMutation } from "@tanstack/react-query";
+
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { CardDescription } from "../../src/components/components/ui/card";
@@ -8,6 +7,8 @@ import FormItem from "antd/es/form/FormItem";
 import { Label } from "@radix-ui/react-label";
 import { useAtom } from "jotai";
 import { userAtom } from "../auth/index";
+import { useLogIn } from "../../query/mutations/users";
+
 const SignIn = () => {
   const { control, handleSubmit, formState } = useForm<SignInValues>({
     defaultValues: { email: "", password: "" },
@@ -20,14 +21,28 @@ const SignIn = () => {
     password: string;
   };
 
-  const { mutate: handleLogin } = useMutation({
-    mutationKey: ["login"],
-    mutationFn: login,
-    onSuccess: (response) => {
-      const { data } = response;
+  // const { mutate: handleLogin } = useMutation({
+  //   mutationKey: ["login"],
+  //   mutationFn: login,
+  //   onSuccess: (response) => {
+  //     const { data } = response;
 
-      if (data?.user) {
-        setUser(data.user);
+  //     if (data?.user) {
+  //       setUser(data.user);
+  //       navigate("/admin");
+  //     } else {
+  //       console.error("Login failed: No user data available");
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.error("Login failed:", error);
+  //   },
+  // });
+
+  const { mutate: handleLogin } = useLogIn({
+    onSuccess: (user) => {
+      if (user) {
+        setUser(user);
         navigate("/admin");
       } else {
         console.error("Login failed: No user data available");
@@ -39,7 +54,7 @@ const SignIn = () => {
   });
 
   const onSignInSubmit = (data: SignInValues) => {
-    handleLogin(data);
+    handleLogin({ payload: data });
   };
 
   return (

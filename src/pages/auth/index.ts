@@ -1,13 +1,12 @@
 import { supabase } from "../../supabase/index";
 import { atom } from "jotai";
 
-export const login = ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
+export type LoginPayload = {
+  payload: { email: string; password: string };
+};
+
+export const login = ({ payload }: LoginPayload) => {
+  const { email, password } = payload;
   return supabase.auth.signInWithPassword({ email, password }).then((res) => {
     if (
       res?.error &&
@@ -16,6 +15,7 @@ export const login = ({
     ) {
       throw new Error("Auth");
     }
+
     return res;
   });
 };
