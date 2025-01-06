@@ -12,10 +12,10 @@ export const updateUserInAdmin = (
 ) => {
   return supabase.auth.admin.updateUserById(id, { ...payload });
 };
-export const getSingleUserInAdmin = (id: string) => {
+export const getSingleUserInAdmin = (id: string): Promise<User | null> => {
   return supabase.auth.admin.getUserById(id).then((res) => {
-    return res.data.user;
-  });
+    return res.data.user || null;
+  }) as Promise<User | null>;
 };
 
 export const addNewUser = (payload: { email: string; phone: string }) => {

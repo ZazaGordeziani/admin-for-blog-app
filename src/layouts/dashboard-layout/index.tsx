@@ -4,13 +4,14 @@
 // import { fetchBlogs } from "../../supabase/blogs/utils";
 // import { supabase } from "../../supabase";
 
-import { getBlogsListInAdmin } from "../../pages/admin-pages/blogs";
+// import { getBlogsListInAdmin } from "../../pages/admin-pages/blogs";
 import { Button, Table } from "antd";
 import Column from "antd/es/table/Column";
 import { mappedBlogsListForAdmin } from "../../pages/admin-pages/blogs/utils";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
+import { useGetBlogsListInAdmin } from "../../query/admin/blogs";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -33,13 +34,17 @@ const Dashboard = () => {
   //   });
   // }, []);
 
-  const getBlogsList = async () => {
-    const blogs = await getBlogsListInAdmin();
-    return mappedBlogsListForAdmin(blogs);
-  };
-  const { data: blogs } = useQuery({
-    queryKey: ["blogs"],
-    queryFn: getBlogsList,
+  // const getBlogsList = async () => {
+  //   const blogs = await getBlogsListInAdmin();
+  //   return mappedBlogsListForAdmin(blogs);
+  // };
+  // const { data: blogs } = useQuery({
+  //   queryKey: ["blogs"],
+  //   queryFn: getBlogsList,
+  // });
+
+  const { data: blogs } = useGetBlogsListInAdmin({
+    queryOptions: { select: mappedBlogsListForAdmin },
   });
 
   const handleNavigateBlogUpdate = (id: string | number) => {

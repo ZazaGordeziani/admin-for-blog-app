@@ -1,15 +1,14 @@
 // import { PropsWithChildren } from "react";
 import { supabase } from "../../../supabase";
-import { Blog } from "./views/blog-create/blog-update";
 
-export const getBlogsListInAdmin = () => {
+export const getBlogsListInAdmin = (): Promise<blog[]> => {
   return supabase
     .from("Blogs")
     .select("*")
     .then((res) => {
       // console.log(res.data);
       return res.data as blog[];
-    });
+    }) as Promise<blog[]>;
 };
 
 export const updateBlogInAdmin = (
@@ -39,7 +38,7 @@ export const updateBlogInAdmin = (
 
 export const getSingleBlogInAdmin = (
   id: number | string
-): Promise<Blog | null> => {
+): Promise<blog | null> => {
   return supabase
     .from("Blogs")
     .select("*")
@@ -59,7 +58,7 @@ export const getSingleBlogInAdmin = (
         image_url: res.data?.image_url || "",
         created_at: res.data?.created_at || "",
       };
-    });
+    }) as Promise<blog | null>;
 };
 
 export type blog = {

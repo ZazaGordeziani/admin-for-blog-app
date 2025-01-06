@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
 
 // import { useEffect, useState } from "react";
-import { getSingleBlogInAdmin } from "../../..";
+// import { getSingleBlogInAdmin } from "../../..";
 import { updateBlogInAdmin } from "../../../index";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 import BlogsCreateUpdateForm from "../../../components/create-update/create-update";
+import { useGetSingleBlogInAdmin } from "../../../../../../query/admin/blogs";
 
 export type Blog = {
   id: string | number;
@@ -21,19 +22,38 @@ const BlogsUpdateView = () => {
   const { id } = useParams();
   // console.log("blog id", id)
 
-  const {
-    data: blog,
-    isLoading,
-    error,
-  } = useQuery<Blog | null>({
-    queryKey: ["blog", id],
-    queryFn: () => getSingleBlogInAdmin(id as string),
-    enabled: !!id,
-  });
+  // const {
+  //   data: blog,
+  //   isLoading,
+  //   error,
+  // } = useQuery<Blog | null>({
+  //   queryKey: ["blog", id],
+  //   queryFn: () => getSingleBlogInAdmin(id as string),
+  //   enabled: !!id,
+  // });
 
-  if (error) {
-    return <div>Error Happened</div>;
-  }
+  // if (error) {
+  //   return <div>Error Happened</div>;
+  // }
+
+  const { data: blog, isLoading } = useGetSingleBlogInAdmin({
+    id: id!,
+    queryOptions: {
+      select: (data) => {
+        if (data) {
+          return {
+            title_ka: data.title_ka || "",
+            title_en: data.title_en || "",
+            description_ka: data.description_ka || "",
+            description_en: data.description_en || "",
+            image_url: data.image_url || "",
+            created_at: data.created_at || "",
+          };
+        }
+        return null;
+      },
+    },
+  });
 
   // const [blog, setBlog] = useState<{
   //   title_ka: string;
